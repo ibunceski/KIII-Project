@@ -44,7 +44,7 @@ async def get_items():
 
 @app.post("/items", response_model=ItemInDB)
 async def add_item(item: Item):
-    result = await collection.insert_one(item.dict())
+    result = await collection.insert_one(item.model_dump())
     new_item = await collection.find_one({"_id": result.inserted_id})
     return item_helper(new_item)
 
