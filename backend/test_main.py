@@ -18,7 +18,7 @@ def test_add_item(mock_collection):
     })
 
     new_item = {"name": "testitem", "quantity": 5}
-    response = client.post("/items", json=new_item)
+    response = client.post("/api/items", json=new_item)
 
     assert response.status_code == 200
     assert response.json()["name"] == "testitem"
@@ -36,7 +36,7 @@ def test_delete_item(mock_collection):
     mock_delete_result.deleted_count = 1
     mock_collection.delete_one = AsyncMock(return_value=mock_delete_result)
 
-    response = client.delete("/items/507f1f77bcf86cd799439011")
+    response = client.delete("/api/items/507f1f77bcf86cd799439011")
 
     assert response.status_code == 200
 
@@ -52,7 +52,7 @@ def test_get_items(mock_collection):
     mock_cursor.to_list = AsyncMock(return_value=mock_items)
     mock_collection.find.return_value = mock_cursor
 
-    response = client.get("/items")
+    response = client.get("/api/items")
 
     assert response.status_code == 200
     assert len(response.json()) == 2

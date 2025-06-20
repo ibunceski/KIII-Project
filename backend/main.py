@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
@@ -37,18 +37,18 @@ def item_helper(item) -> dict:
     }
 
 # Routes
-@app.get("/items", response_model=list[ItemInDB])
+@app.get("/api/items", response_model=list[ItemInDB])
 async def get_items():
     items = await collection.find().to_list(100)
     return [item_helper(item) for item in items]
 
-@app.post("/items", response_model=ItemInDB)
+@app.post("/api/items", response_model=ItemInDB)
 async def add_item(item: Item):
     result = await collection.insert_one(item.model_dump())
     new_item = await collection.find_one({"_id": result.inserted_id})
     return item_helper(new_item)
 
-@app.put("/items/{item_id}", response_model=ItemInDB)
+@app.put("/api/items/{item_id}", response_model=ItemInDB)
 async def update_item(item_id: str, item: Item):
     result = await collection.update_one(
         {"_id": ObjectId(item_id)}, {"$set": item.dict()}
@@ -58,7 +58,7 @@ async def update_item(item_id: str, item: Item):
     updated_item = await collection.find_one({"_id": ObjectId(item_id)})
     return item_helper(updated_item)
 
-@app.delete("/items/{item_id}")
+@app.delete("/api/items/{item_id}")
 async def delete_item(item_id: str):
     result = await collection.delete_one({"_id": ObjectId(item_id)})
     if result.deleted_count == 0:

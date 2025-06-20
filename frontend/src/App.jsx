@@ -15,7 +15,7 @@ function App() {
     }, []);
 
     const fetchItems = async () => {
-        const res = await axios.get(`${API_URL}/items`);
+        const res = await axios.get(`${API_URL}/api/items`);
         setItems(res.data);
     };
 
@@ -24,9 +24,9 @@ function App() {
         if (!name.trim() || quantity <= 0) return;
 
         if (isEditing) {
-            await axios.put(`${API_URL}/items/${editingId}`, { name, quantity });
+            await axios.put(`${API_URL}/api/items/${editingId}`, { name, quantity });
         } else {
-            await axios.post(`${API_URL}/items`, { name, quantity });
+            await axios.post(`${API_URL}/api/items`, { name, quantity });
         }
 
         await fetchItems();
@@ -41,7 +41,7 @@ function App() {
     };
 
     const handleDelete = async (id) => {
-        await axios.delete(`${API_URL}/items/${id}`);
+        await axios.delete(`${API_URL}/api/items/${id}`);
         await fetchItems();
     };
 
