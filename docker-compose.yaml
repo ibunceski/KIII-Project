@@ -5,8 +5,8 @@ services:
     build: ./frontend
     ports:
       - "3000:80"
-    volumes:
-      - ./env.dev.js:/usr/share/nginx/html/env.js:ro
+    environment:
+      - VITE_API_URL=http://backend:8000
     depends_on:
       - backend
 
