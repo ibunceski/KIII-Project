@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // const API_URL = window._env_?.VITE_API_URL || import.meta.env.VITE_API_URL || "http://localhost:8000";
-const API_URL = "http://backend.grocery-app.svc.cluster.local:8000"
+const API_URL = "http://backend.grocery-app.svc.cluster.local:80"
 
 function App() {
     const [items, setItems] = useState([]);
