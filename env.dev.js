@@ -1,0 +1,3 @@
+window.env = {
+  VITE_API_URL: "http://backend:8000"
+};
